@@ -1,0 +1,10 @@
+div(class="theme-changer" style="margin: 20px;")
+  p Current Theme: #{req.session.theme || req.WebConfig.themes[0]}
+  form(action=`${req.WebConfig.StaticFilesDir}/theme` method="post")
+    select(name="theme")
+      each theme in req.WebConfig.themes
+        option(value=theme)=theme
+    br
+    br
+
+    button(type="submit" style="cursor: hand;") Change Theme

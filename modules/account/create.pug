@@ -1,0 +1,114 @@
+style.
+  input {
+    border: 1px solid #DDDDDD;
+    margin: 5px;
+    padding: 5px;
+  }
+
+  * {
+    font-family: Sans-serif;
+  }
+
+  small {
+    color: rgb(100, 100, 100);
+  }
+
+  button {
+    cursor: hand;
+  }
+
+  .notifBox {
+    color: white;
+    width: 50vh;
+    padding: 5px;
+    text-align: center;
+    border-radius: 3px;
+  }
+
+  .Err {
+    background-color: rgb(255, 87, 84);
+  }
+
+  .Success {
+    background-color: rgb(135, 255, 119);
+  }
+
+script(src="https://www.google.com/recaptcha/api.js")
+
+div(class="form" style="margin: 20px;")
+
+  if req.error.length > 0
+    div(class="notifBox Err")
+      p!=req.error[0]
+  else if req.success.length > 0
+    div(class="notifBox Success")
+      p!=req.success[0]
+
+  h2 Register to #{req.WebConfig.SiteTitle}
+
+  form(method="post" action=`${req.WebConfig.StaticFilesDir}/create`)
+    span Username: 
+      input(name="userid" type="text" minLength="4" pattern="[a-zA-Z0-9]\+" title="Must contain letters and numbers only" placeholder="Username" required)
+      
+    br
+
+    span Email:
+      input(name="email" type="email" minLength="4" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Please follow the following example: example@example.com" placeholder="Email" required)
+
+    br
+
+    span Password: 
+      input(name="user_pass" type="password" minLength="4" placeholder="Password" required)
+      if req.WebConfig.HashPassword
+        br
+        small Your passwords are hashed with MD5, means it is protected and uncrackable.
+        br
+    br
+
+    if req.WebConfig.PinCodeEnabled
+      span Pincode:
+        input(name="pincode" type="text" minLength="4" maxLength="4" pattern="[0-9]\+" title="Must contain numbers only" placeholder="Pincode" required)
+      br
+
+    span Sex 
+      select(name="sex")
+        option(value="M") Male
+        option(value="F") Female
+      br
+    br
+
+    span Birthdate: (YYYY/MM/DD) 
+      select(name="birthdate_year")
+        - let date = new Date()
+        - var i = req.WebConfig.BirthDateYearMin - 1;
+          
+        while i < date.getFullYear()
+          - i++
+          option(value=i) #{i}
+        
+      select(name="birthdate_month")
+        - var i = 0;
+        while i < 12
+          - i++
+          if i.toString().length === 1
+            - i = `0${i}`
+            option(value=i) #{i}
+            
+      select(name="birthdate_day")
+        - var i = 0;
+        while i < 31
+          - i++
+          if i.toString().length === 1
+            - i = `0${i}`
+            option(value=i) #{i}
+      br
+    br
+
+    if req.WebConfig.Recaptcha.enabled
+      span Security
+        div(class="g-recaptcha" data-sitekey=req.WebConfig.Recaptcha['site-key'])
+        small The captcha has been added by the site owner to prevent spam.
+        br
+      br
+
+    button(type="submit") Register

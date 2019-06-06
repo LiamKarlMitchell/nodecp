@@ -1,0 +1,78 @@
+style.
+  input {
+    border: 1px solid #DDDDDD;
+    margin: 5px;
+    padding: 5px;
+  }
+
+  * {
+    font-family: Sans-serif;
+  }
+
+  small {
+    color: rgb(100, 100, 100);
+  }
+
+  button {
+    cursor: hand;
+  }
+
+  .notifBox { 
+    width: 50vh;
+    padding: 5px;
+    text-align: center;
+    border-radius: 3px;
+    color: white;
+  }
+
+  .Err {
+    background-color: rgb(255, 87, 84);
+  }
+
+  .Success {
+    background-color: rgb(135, 255, 119);
+  }
+
+script(src="https://www.google.com/recaptcha/api.js")
+
+div(class="form" style="margin: 20px;")
+
+  if req.error.length > 0
+    div(class="notifBox Err")
+      p!=req.error[0]
+  else if req.success.length > 0
+    div(class="notifBox Success")
+      p!=req.success[0]
+
+  h2 Login to #{req.WebConfig.SiteTitle}
+
+  form(method="post" action=`${req.WebConfig.StaticFilesDir}/login`)
+    span Username: 
+      input(name="userid" type="text" minLength="4" pattern="[a-zA-Z0-9]\+" title="Must contain letters and numbers only" placeholder="Username" required)
+  
+    br
+
+    span Password: 
+      input(name="user_pass" type="password" minLength="4" placeholder="Password" required)
+      if req.WebConfig.HashPassword
+        br
+        small Your passwords are hashed with MD5, means it is protected and uncrackable.
+        br
+    br
+
+    if req.WebConfig.PinCodeEnabled
+      span Pincode:
+        input(name="pincode" type="text" minLength="4" maxLength="4" pattern="[0-9]\+" title="Must contain numbers only" placeholder="Pincode")
+        br
+        small If you don't have a pincode set, you could ignore this.
+        br
+      br
+
+    if req.WebConfig.Recaptcha.enabled
+      span Security
+        div(class="g-recaptcha" data-sitekey=req.WebConfig.Recaptcha['site-key'])
+        small The captcha has been added by the site owner to prevent spam.
+        br
+      br
+
+    button(type="submit") Login
