@@ -1,0 +1,52 @@
+style.
+  .card {
+    transition: 0.8s;
+  }
+
+  .card:hover {
+    box-shadow: 5px 5px 5px grey;
+    transition: 0.5s;
+  }
+
+  hr {
+    border: 1px solid #DDDDDD;
+    width: 50vh;
+  }
+
+  .content {
+    word-wrap: break-word;
+  }
+
+  a {
+    text-decoration: none;
+    color: rgb(109, 165, 255);
+    transition: 0.5s;
+  }
+
+  a:hover {
+    text-shadow: 3px 4px 5px grey;
+    transition: 0.5s;
+  }
+
+  small {
+    color: rgb(100, 100, 100);
+  }
+
+div(class="home" style="text-align: center; font-family: Sans-Serif")
+  h2 Latest Announcements
+  
+  if !req.WebConfig.Rss.enabled || !req.WebConfig.Rss.displayOnHome
+    p RSS Feed is disabled.
+  else
+    - let i = 0;
+
+    while i < req.WebConfig.Rss.maxLimit
+      div(class="card" style="border-radius: 5px; border: 3px solid black; max-width: 50%; margin: 0 auto;")
+        div(class="content" style="text-align: left; margin: 20px;")
+          div(class="header" style="display: inline-block;")
+            h3!=`<a href=${req.rss.items[i].link}>${req.rss.items[i].title}</a>`
+            small Posted at #{req.moment(req.rss.items[i].isoDate).format('LLL')}
+          hr(align="left")
+          p=req.rss.items[i].contentSnippet.substring(0, 500) + '...'
+      br
+      - i++

@@ -1,0 +1,10 @@
+{
+  "Renewal": false,
+  "mysql": {
+    "host": "localhost",
+    "port": 3306,
+    "user": "ragnarok",
+    "password": "ragnarok",
+    "database": "ragnarok"
+  }
+}

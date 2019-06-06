@@ -1,0 +1,120 @@
+{
+  "StaticFilesDir": "",
+
+  "port": 80,
+  
+  "FetchItemDbOnStart": true,
+  
+  "HashPassword": false,
+  
+  "AllowMultipleEmails": false,
+  
+  "AllowRegister": true,
+
+  "AllowResetPassword": "false",
+
+  "GameMasterMinimumLevel": 60,
+  
+  "BirthDateYearMin": 1970,
+  
+  "PinCodeEnabled": false,
+    
+  "Secret": "nodecp",
+    
+  "themes": ["default"],
+  
+  "SiteTitle": "Node Control Panel",
+  
+  "cache": {
+    "mysql": 30000
+  },
+  
+  "Recaptcha": {
+    "enabled": false,
+    "site-key": "",
+    "secret-key": ""
+  },
+
+  "Rss": {
+    "enabled": true,
+    "displayOnHome": true,
+    "link": "https://rathena.org/board/forum/9-community-news.xml",
+    "maxLimit": 5
+  },
+  
+  "Email": {
+    "from": "no-reply@yourro.com",
+    "host": "smtp.gmail.com",
+    "secureConnection": true,
+    "port": "465",
+    "transportMethod": "SMTP",
+    "auth": {
+      "user": "ragnarok@yourro.com",
+      "pass": "ragnarok"
+    }
+  },
+  
+  "MenuItems": [
+    {
+      "menu": "Main Menu",
+      "items": [
+        {
+          "name": "Home",
+          "href": "/",
+          "showEvenIfLoggedIn": true
+        },
+        {
+          "name": "📥 Downloads",
+          "href": "/downloads",
+          "showEvenIfLoggedIn": true
+        },
+        {
+          "name": "News",
+          "href": "/news",
+          "showEvenIfLoggedIn": true
+        }
+      ]
+    },
+    {
+      "menu": "Account",
+      "items": [
+        {
+          "name": "Login",
+          "href": "/account/login"
+        },
+        {
+          "name": "Register",
+          "href": "/account/create"
+        },
+        {
+          "name": "Reset Password",
+          "href": "/account/reset"
+        },
+        {
+          "name": "View Account",
+          "href": "/account",
+          "mustBeLoggedIn": true
+        },
+        {
+          "name": "Change Pincode",
+          "href": "/account/pin",
+          "mustBeLoggedIn": true
+        },
+        {
+          "name": "Logout",
+          "href": "/account/logout",
+          "mustBeLoggedIn": true
+        }
+      ]
+    },
+    {
+      "menu": "Miscellaneous",
+      "items": [
+        {
+          "name": "Change Theme",
+          "href": "/theme"
+        }
+      ]
+    }
+  ]
+}

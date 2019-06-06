@@ -1,0 +1,141 @@
+style.
+  * {
+    font-family: Sans-serif;
+  }
+
+  button {
+    cursor: hand;
+  }
+
+  .notifBox { 
+    color: white;
+    width: 50vh;
+    padding: 5px;
+    text-align: center;
+    border-radius: 3px;
+  }
+
+  .Err {
+    background-color: rgb(255, 87, 84);
+  }
+
+  table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
+
+  th, td {
+    padding: 10px;
+    text-align: left;
+  }
+
+div(class="account" style="margin: 20px;")
+  if !req.session.account.pincode && req.WebConfig.PinCodeEnabled
+    div(class="notifBox Err")
+      p!= "You don't have a pin code set! Please set one in-game or set one <a href=\"/account/pin\">here</a>"
+  
+  h3 Viewing your account
+
+  table
+    tr
+      th Username
+        td=req.session.account.userid
+
+      th Account ID
+      if req.session.account.group_id < req.WebConfig.GameMasterMinimumLevel
+        td!= '<i>Hidden</i>'
+      else
+        td=req.session.account.account_id
+
+    tr
+      th Email
+        td=req.session.account.email
+      
+      th Group ID
+        td=req.session.account.group_id
+
+    tr
+      th Gender
+        td=req.session.account.sex === 'M' ? 'Male' : 'Female'
+
+
+      th State
+        td=req.session.account.state
+
+    tr
+      th Birthdate
+        td=req.moment(req.session.account.birthdate).format('YYYY-MM-DD')
+
+    tr
+      th Last Login Date
+        td=req.session.account.lastlogin ? req.moment(req.session.account.lastlogin).format('LLL') : 'Never Logged in'
+    
+    tr
+      th Last IP Used 
+        td!=req.session.account.last_ip || '<i>None</i>'
+
+  br
+  hr(style="width: 50%;" align="left")
+
+  h3 Viewing your characters
+  - let totalZeny = 0;
+  - let characters = req.Mysql.get('char', 'account_id', req.session.account.account_id)  
+  
+  if characters.length < 1
+    p No Characters Found.
+  else 
+    table
+      tr
+        th Slot
+        th Character Name
+        th Job Class 
+        th Base Level 
+        th Job Level 
+        th Zeny 
+        th Guild 
+        th Status 
+
+      each char in characters
+        - totalZeny += char.zeny
+        tr
+          td=char.char_num
+          td=char.name
+          td=req.Constants.jobs[char.class.toString()] || char.class
+          td=char.base_level.toLocaleString()
+          td=char.job_level.toLocaleString()
+          td=char.zeny.toLocaleString()
+          td!=char.guild_id || '<i>None</i>'
+          td=char.online < 1 ? 'Offline' : 'Online'
+
+    br
+    small!=`Total Zeny: <strong>${totalZeny.toLocaleString()}</strong>`
+    br
+
+  hr(style="width: 50%;" align="left")
+
+  h3 Viewing your storage
+  - let storage = req.Mysql.get('storage', 'account_id', req.session.account.account_id);
+
+  if (storage.length < 1)
+    p No items found in storage.
+  else
+    table
+      tr
+        th Item ID
+        th Item Name
+        th Amount
+        th Attribute
+        th Card #1
+        th Card #2
+        th Card #3
+        th Card #4
+      each item in storage
+        tr
+          td=item.nameid
+          td!=`${item.refine > 0 ? `+${item.refine}` : ''} ${req.ItemDb.filter(_item => _item.id === item.nameid)[0].name_japanese}`
+          td=item.amount
+          td=item.attribute
+          td!=req.ItemDb.filter(_item => _item.id === item.card0).length > 0 ? req.ItemDb.filter(_item => _item.id === item.card0)[0].name_japanese : '<i>None</i>'
+          td!=req.ItemDb.filter(_item => _item.id === item.card1).length > 0 ? req.ItemDb.filter(_item => _item.id === item.card1)[0].name_japanese : '<i>None</i>'
+          td!=req.ItemDb.filter(_item => _item.id === item.card2).length > 0 ? req.ItemDb.filter(_item => _item.id === item.card2)[0].name_japanese : '<i>None</i>'
+          td!=req.ItemDb.filter(_item => _item.id === item.card3).length > 0 ? req.ItemDb.filter(_item => _item.id === item.card3)[0].name_japanese : '<i>None</i>'

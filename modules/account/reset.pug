@@ -1,0 +1,76 @@
+style.
+  input {
+    border: 1px solid #DDDDDD;
+    margin: 5px;
+    padding: 5px;
+  }
+
+  * {
+    font-family: Sans-serif;
+  }
+
+  small {
+    color: rgb(100, 100, 100);
+  }
+
+  button {
+    cursor: hand;
+  }
+
+  .notifBox { 
+    width: 50vh;
+    padding: 5px;
+    text-align: center;
+    border-radius: 3px;
+    color: white;
+  }
+
+  .Err {
+    background-color: rgb(255, 87, 84);
+  }
+
+  .Success {
+    background-color: rgb(135, 255, 119);
+  }
+
+script(src="https://www.google.com/recaptcha/api.js")
+
+mixin data()
+  if req.error.length > 0
+    div(class="notifBox Err")
+      p!=req.error[0]
+  else if req.success.length > 0
+    div(class="notifBox Success")
+      p!=req.success[0]
+
+  if !req.query.code
+      
+    h2 Reset your password
+  
+    span Username: 
+      input(name="userid" type="text" minLength="4" pattern="[a-zA-Z0-9]\+" title="Must contain letters and numbers only" placeholder="Username" required)
+    br
+  else
+    h3 Please choose a new Password 
+
+    span Password: 
+      input(name="new_pass" type="password" placeholder="Password" required)
+    br
+
+
+  if req.WebConfig.Recaptcha.enabled
+    span Security
+      div(class="g-recaptcha" data-sitekey=req.WebConfig.Recaptcha['site-key'])
+      small The captcha has been added by the site owner to prevent spam.
+      br
+    br
+      
+  button(type="submit" class="btn btn-outline-dark col-sm-3") Reset Password    
+
+div(class="form" style="margin: 20px;")
+  if !req.query.code
+    form(action=`${req.WebConfig.StaticFilesDir}/account/reset` method="post")
+      +data()
+  else
+    form(action=`${req.WebConfig.StaticFilesDir}/account/reset?code=${req.query.code}` method="post")
+      +data()

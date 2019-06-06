@@ -1,0 +1,14 @@
+{
+  "customTables": [
+    {
+      "name": "cp_credits",
+      "query": "CREATE TABLE IF NOT EXISTS cp_credits (account_id int(11) unsigned NOT NULL, balance int(11) unsigned NOT NULL DEFAULT '0', last_donation_date datetime DEFAULT NULL, last_donation_amount float unsigned DEFAULT NULL, PRIMARY KEY (`account_id`), KEY `account_id` (`account_id`) ) engine=myisam DEFAULT charset=latin1 comment='Donation credits balance for a given account.'"
+    },
+    {
+      "name": "cp_resetpass",
+      "query": "CREATE TABLE IF NOT EXISTS cp_resetpass (id int(11) NOT NULL AUTO_INCREMENT, code varchar(32) NOT NULL, account_id int(10) NOT NULL, old_password varchar(32) NOT NULL, new_password varchar(32) DEFAULT NULL, request_date datetime NOT NULL, request_ip varchar(15) NOT NULL, reset_date datetime DEFAULT NULL, reset_ip varchar(15) DEFAULT NULL, reset_done tinyint(4) NOT NULL DEFAULT '0', PRIMARY KEY (`id`), KEY `account_id` (`account_id`) ) ENGINE = MyISAM DEFAULT CHARSET = latin1 AUTO_INCREMENT = 1"
+    }
+  ],
+  "installedTables": [
+  ]
+}
