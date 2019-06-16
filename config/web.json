@@ -11,17 +11,17 @@
   
   "AllowRegister": true,
 
-  "AllowResetPassword": "false",
+  "AllowResetPassword": false,
 
   "GameMasterMinimumLevel": 60,
   
   "BirthDateYearMin": 1970,
   
-  "PinCodeEnabled": true,
+  "PinCodeEnabled": false,
     
   "Secret": "nodecp",
     
-  "themes": ["default", "modern"],
+  "themes": ["default"],
   
   "SiteTitle": "Node Control Panel",
   
@@ -43,14 +43,14 @@
   },
   
   "Email": {
-    "from": "nodecontrolpanel@gmail.com",
+    "from": "yourro@gmail.com",
     "host": "smtp.gmail.com",
     "secureConnection": true,
     "port": "465",
     "transportMethod": "SMTP",
     "auth": {
-      "user": "nodecontrolpanel@gmail.com",
-      "pass": "gameguydk"
+      "user": "yourro@gmail.com",
+      "pass": "password"
     }
   },
   
@@ -62,6 +62,12 @@
           "name": "Home",
           "href": "/",
           "showEvenIfLoggedIn": true
+        },
+        {
+          "name": "Forums",
+          "href": "/forums",
+          "showEvenIfLoggedIn": true,
+          "externalLink": true
         },
         {
           "name": "📥 Downloads",
