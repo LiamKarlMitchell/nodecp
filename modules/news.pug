@@ -1,11 +1,13 @@
 style.
   .card {
-    transition: 0.8s;
+    transition: .3s;
   }
 
   .card:hover {
+    transition: .3s;
+    position: relative;
+    top: -5px;
     box-shadow: 5px 5px 5px grey;
-    transition: 0.5s;
   }
 
   hr {
@@ -33,8 +35,6 @@ style.
   }
 
 div(class="home" style="text-align: center; font-family: Sans-Serif")
-  h2 Invalid RSS Feed.
-
   if !req.WebConfig.Rss.enabled
     p RSS Feed is disabled.
   else

@@ -17,11 +17,11 @@
   
   "BirthDateYearMin": 1970,
   
-  "PinCodeEnabled": false,
+  "PinCodeEnabled": true,
     
   "Secret": "nodecp",
     
-  "themes": ["default"],
+  "themes": ["default", "modern"],
   
   "SiteTitle": "Node Control Panel",
   
@@ -43,14 +43,14 @@
   },
   
   "Email": {
-    "from": "no-reply@yourro.com",
+    "from": "nodecontrolpanel@gmail.com",
     "host": "smtp.gmail.com",
     "secureConnection": true,
     "port": "465",
     "transportMethod": "SMTP",
     "auth": {
-      "user": "ragnarok@yourro.com",
-      "pass": "ragnarok"
+      "user": "nodecontrolpanel@gmail.com",
+      "pass": "gameguydk"
     }
   },
   
@@ -112,7 +112,13 @@
       "items": [
         {
           "name": "Change Theme",
-          "href": "/theme"
+          "href": "/theme",
+          "showEvenIfLoggedIn": true
+        },
+        {
+          "name": "Server Status",
+          "href": "/status",
+          "showEvenIfLoggedIn": true
         }
       ]
     }

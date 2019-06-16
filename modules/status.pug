@@ -1,0 +1,29 @@
+style.
+  .status {
+    margin: 20px;
+  }
+
+  table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
+
+  th, td {
+    padding: 5px;
+    text-align: left;
+  }
+
+div(class="status")
+  h2 Server Status for #{req.ServerConfig.name}
+  table
+    tr
+      th Login Server
+      th Map Server
+      th Char Server
+      th Players Online
+    tr
+      - let status = req.status;
+      td!= status.login ? '<p style="color: green">Online</p>' : '<p style="color: red">Offline</p>'
+      td!= status.map ? '<p style="color: green">Online</p>' : '<p style="color: red">Offline</p>'
+      td!= status.char ? '<p style="color: green">Online</p>' : '<p style="color: red">Offline</p>'
+      td!= status.online.toLocaleString()

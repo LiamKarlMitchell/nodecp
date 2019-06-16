@@ -1,5 +1,12 @@
 {
   "Renewal": false,
+  "name": "YourRO",
+  "host": "localhost",
+  "ports": {
+    "char": 6121,
+    "map": 5121,
+    "login": 6900
+  },
   "mysql": {
     "host": "localhost",
     "port": 3306,

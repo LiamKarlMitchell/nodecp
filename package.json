@@ -1,6 +1,6 @@
 {
   "name": "nodecp",
-  "version": "0.1.0",
+  "version": "1.1.0",
   "description": "",
   "main": "server.js",
   "dependencies": {
@@ -11,6 +11,7 @@
     "express-ipv4": "0.0.1",
     "express-mailer": "^0.3.1",
     "express-session": "^1.16.1",
+    "is-port-reachable": "^2.0.1",
     "memory-cache": "^0.2.0",
     "moment": "^2.24.0",
     "pug": "^2.0.3",

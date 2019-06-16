@@ -10,7 +10,7 @@ const JSFiles = new Map();
 // make a new cache for conditions
 const Conditions = new Map();
 
-module.exports = function(ItemDb, MysqlServer, req, res, next) {
+module.exports = async function(ItemDb, MysqlServer, req, res, next) {
   // our config
   req.WebConfig = JSON.parse(fs.readFileSync(`${process.cwd()}/config/web.json`));
   
@@ -33,6 +33,8 @@ module.exports = function(ItemDb, MysqlServer, req, res, next) {
   } else {
     req.ItemDb = ItemDb;
   };
+
+  req.ServerConfig = JSON.parse(fs.readFileSync(`${process.cwd()}/config/server.json`));;
   
   // our content parser 
   req.parseContent = function(req, content) {
@@ -55,6 +57,34 @@ module.exports = function(ItemDb, MysqlServer, req, res, next) {
       return res.render('index', { req, content: content.toString() });
     }
   };
+
+  // status fetcher
+  req.fetchStatus = async function() {
+    const isPortReachable = require('is-port-reachable');
+    this.cache = require('memory-cache');
+
+    if (this.cache.get('status'))
+      return this.cache.get('status');
+
+    let result = {
+      char: false,
+      map: false,
+      login: false,
+      online: 0
+    };
+
+    for (var ports in req.ServerConfig.ports) {
+      let status = await isPortReachable(req.ServerConfig.ports[ports], { host: req.ServerConfig.host });
+      result[ports] = status;
+    };
+
+    this.cache.put('status', result, 60000);
+
+    return result;
+  };
+
+  // our status variable
+  req.status = await req.fetchStatus();
 
   // fetch the buffer of modules
   req.ModuleToBuffer = function(module) {

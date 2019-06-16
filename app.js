@@ -59,6 +59,31 @@ app.set('view engine', 'pug');
 
 mailer.extend(app, WebConfig.Email);
 
+// status
+(async function() {
+  const isPortReachable = require('is-port-reachable');
+  let result = {
+    char: false,
+    map: false,
+    login: false,
+    online: 0
+  };
+
+  this.cache = require('memory-cache');
+
+  if (this.cache.get('status'))
+    return this.cache.get('status');
+
+    for (var ports in ServerConfig.ports) {
+      let status = await isPortReachable(ServerConfig.ports[ports], { host: ServerConfig.host });
+      result[ports] = status;
+    };
+
+  result.online = MysqlServer.getNoCache('char', 'online', 1).length;
+
+  this.cache.put('status', result, 60000)
+})();
+
 app.use(function(req, res, next) {
   Properties(ItemDb, MysqlServer, req, res, next);
 });
