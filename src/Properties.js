@@ -78,6 +78,8 @@ module.exports = async function(ItemDb, MysqlServer, req, res, next) {
       result[ports] = status;
     };
 
+    result.online = MysqlServer.getNoCache('char', 'online', 1).length;
+
     this.cache.put('status', result, 60000);
 
     return result;
